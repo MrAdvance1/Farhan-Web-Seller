@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Farhan Website Creater — Premium Websites</title>
+<style>
+  :root{
+    --bg1:#0f0c29;
+    --bg2:#302b63;
+    --bg3:#24243e;
+    --card:#1e1b3a;
+    --accent:#ffca28;
+    --text:white;
+    --muted:#b8b8d4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,Arial}
+  body{background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));color:var(--text);min-height:100vh}
+  header{padding:30px 20px;text-align:center}
+  h1{font-size:32px;font-weight:700}
+  .subtitle{color:var(--muted);margin-top:6px}
+
+  .container{max-width:1100px;margin:auto;padding:20px}
+
+  .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:30px}
+  .card{background:var(--card);padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 25px rgba(0,0,0,0.3);transition:0.3s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,0.45)}
+  .card h3{font-size:22px;margin-bottom:8px;color:var(--accent)}
+  .price{font-size:28px;font-weight:700;margin-bottom:10px}
+  ul{color:var(--muted);margin-bottom:16px}
+  .buy{background:var(--accent);color:black;padding:12px 16px;border:none;border-radius:8px;font-weight:600;cursor:pointer;width:100%;font-size:15px}
+
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:100;padding:20px}
+  .panel{background:#1a1835;padding:24px;border-radius:12px;max-width:420px;width:100%;text-align:center}
+
+  .choice-box{display:flex;gap:14px;margin-top:20px}
+  .option-box{flex:1;background:#2a2750;padding:20px;border-radius:12px;cursor:pointer;border:2px solid transparent;transition:0.3s}
+  .option-box:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .option-box h4{color:var(--accent);margin-bottom:6px}
+
+  #successBox{display:none}
+  #successBox .tick{font-size:70px;color:#4ade80;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Farhan Website Creater</h1>
+  <p class="subtitle">Beautiful • Colourful • Professional Websites</p>
+</header>
+
+<div class="container">
+
+  <div class="pricing">
+    <div class="card">
+      <h3>Basic</h3>
+      <div class="price">PKR 5,000</div>
+      <ul>
+        <li>1 Page Website</li>
+        <li>Contact Form</li>
+        <li>Mobile Friendly</li>
+      </ul>
+      <button class="buy" data-plan="Basic" data-price="5000">Buy Now</button>
+    </div>
+
+    <div class="card">
+      <h3>Business</h3>
+      <div class="price">PKR 12,000</div>
+      <ul>
+        <li>Up to 5 Pages</li>
+        <li>Premium UI Design</li>
+        <li>SEO Optimized</li>
+      </ul>
+      <button class="buy" data-plan="Business" data-price="12000">Buy Now</button>
+    </div>
+
+    <div class="card">
+      <h3>Professional</h3>
+      <div class="price">PKR 25,000</div>
+      <ul>
+        <li>10+ Pages</li>
+        <li>E‑Commerce / Booking</li>
+        <li>Priority Support</li>
+      </ul>
+      <button class="buy" data-plan="Professional" data-price="25000">Buy Now</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="panel" id="panel">
+    <h2 id="modalTitle">Complete Purchase</h2>
+    <p id="modalDesc" style="color:var(--muted);margin-top:6px">Choose contact method</p>
+
+    <div id="choiceArea" class="choice-box">
+      <div class="option-box" id="card-ws">
+        <h4>WhatsApp</h4>
+        <p style="color:var(--muted)">Open Chat</p>
+      </div>
+      <div class="option-box" id="card-dc">
+        <h4>Discord</h4>
+        <p style="color:var(--muted)">DM Direct</p>
+      </div>
+    </div>
+
+    <div id="successBox">
+      <div class="tick">✔</div>
+      <h2>Thanks For Purchase!</h2>
+      <p style="color:var(--muted)">We received your request.</p>
+    </div>
+
+    <button id="cancelBtn" class="buy" style="margin-top:20px;background:#ff4d4d;color:white">Close</button>
+  </div>
+</div>
+
+<script>
+  const modal=document.getElementById('modal')
+  const panel=document.getElementById('panel')
+  const buyButtons=document.querySelectorAll('.buy')
+  const wsCard=document.getElementById('card-ws')
+  const dcCard=document.getElementById('card-dc')
+  const cancelBtn=document.getElementById('cancelBtn')
+  const choiceArea=document.getElementById('choiceArea')
+  const successBox=document.getElementById('successBox')
+  const modalTitle=document.getElementById('modalTitle')
+
+  let selectedPlan=null
+  let selectedPrice=null
+
+  buyButtons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selectedPlan=btn.dataset.plan
+      selectedPrice=btn.dataset.price
+      modalTitle.textContent=`Buy: ${selectedPlan} — PKR ${selectedPrice}`
+      modal.style.display='flex'
+      choiceArea.style.display='flex'
+      successBox.style.display='none'
+    })
+  })
+
+  wsCard.addEventListener('click',()=>{
+    choiceArea.style.display='none'
+    successBox.style.display='block'
+
+    setTimeout(()=>{
+      const url=`https://wa.me/923121798054?text=${encodeURIComponent(`Hello, I want ${selectedPlan} (${selectedPrice} PKR)`)}`
+      window.open(url,'_blank')
+    },800)
+
+    setTimeout(()=>modal.style.display='none',1800)
+  })
+
+  dcCard.addEventListener('click',()=>{
+    choiceArea.style.display='none'
+    successBox.style.display='block'
+
+    window.open('https://discord.com/users/1307359626278211725','_blank')
+    setTimeout(()=>modal.style.display='none',1800)
+  })
+
+  cancelBtn.addEventListener('click',()=>modal.style.display='none')
+</script>
+
+</body>
+</html>
